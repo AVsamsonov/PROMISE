@@ -4,11 +4,11 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="quUcTB" name="PROMISE">
     <GROUP id="{2A1E346B-4E35-DAA1-DAF8-7EDE57D8BB49}" name="Source">
-      <GROUP id="{9ACE42DE-3326-15EB-0A36-00DF4B52327A}" name="GUI">
-        <FILE id="JfPUDa" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
-        <FILE id="shFSiO" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
-        <FILE id="JjvlIf" name="MainComponent.cpp" compile="1" resource="0"
-              file="Source/MainComponent.cpp"/>
+      <GROUP id="{55C7E9A2-8E24-F121-1864-373D0AF598BB}" name="GUI">
+        <FILE id="o1ydzo" name="Main.cpp" compile="1" resource="0" file="Source/GUI/Main.cpp"/>
+        <FILE id="tuPDgt" name="MainComponent.cpp" compile="1" resource="0"
+              file="Source/GUI/MainComponent.cpp"/>
+        <FILE id="KUoRAk" name="MainComponent.h" compile="0" resource="0" file="Source/GUI/MainComponent.h"/>
       </GROUP>
     </GROUP>
     <FILE id="K3pYzA" name="README.md" compile="0" resource="1" file="README.md"/>
