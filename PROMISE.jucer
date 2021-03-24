@@ -11,6 +11,7 @@
               file="Source/MainComponent.cpp"/>
       </GROUP>
     </GROUP>
+    <FILE id="K3pYzA" name="README.md" compile="0" resource="1" file="README.md"/>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
   <EXPORTFORMATS>
