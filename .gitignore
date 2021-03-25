@@ -1,3 +1,6 @@
 .DS_Store
 /Builds
 /JuceLibraryCode
+./idea
+JUCE
+cmake-build-debug
