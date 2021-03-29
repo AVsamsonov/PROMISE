@@ -14,7 +14,7 @@ class PROMISEApplication  : public juce::JUCEApplication
 {
 public:
     //==============================================================================
-    PROMISEApplication() {}
+    PROMISEApplication() = default;
 
     const juce::String getApplicationName() override       { return ProjectInfo::projectName; }
     const juce::String getApplicationVersion() override    { return ProjectInfo::versionString; }
@@ -75,6 +75,7 @@ public:
            #endif
 
             setVisible (true);
+            setFullScreen(true);
         }
 
         void closeButtonPressed() override

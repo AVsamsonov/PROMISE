@@ -5,10 +5,16 @@
   <MAINGROUP id="quUcTB" name="PROMISE">
     <GROUP id="{2A1E346B-4E35-DAA1-DAF8-7EDE57D8BB49}" name="Source">
       <GROUP id="{55C7E9A2-8E24-F121-1864-373D0AF598BB}" name="GUI">
+        <FILE id="N7kZaX" name="BasePanel.cpp" compile="1" resource="0" file="Source/GUI/BasePanel.cpp"/>
+        <FILE id="GgJUH2" name="BasePanel.h" compile="0" resource="0" file="Source/GUI/BasePanel.h"/>
         <FILE id="o1ydzo" name="Main.cpp" compile="1" resource="0" file="Source/GUI/Main.cpp"/>
         <FILE id="tuPDgt" name="MainComponent.cpp" compile="1" resource="0"
               file="Source/GUI/MainComponent.cpp"/>
         <FILE id="KUoRAk" name="MainComponent.h" compile="0" resource="0" file="Source/GUI/MainComponent.h"/>
+        <FILE id="WFUppL" name="SplittablePanel.cpp" compile="1" resource="0"
+              file="Source/GUI/SplittablePanel.cpp"/>
+        <FILE id="wcio9K" name="SplittablePanel.h" compile="0" resource="0"
+              file="Source/GUI/SplittablePanel.h"/>
       </GROUP>
     </GROUP>
     <FILE id="K3pYzA" name="README.md" compile="0" resource="1" file="README.md"/>

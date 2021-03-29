@@ -60,7 +60,9 @@ juce_generate_juce_header(PROMISE)
 target_sources(PROMISE
     PRIVATE
         Source/GUI/Main.cpp
-        Source/GUI/MainComponent.cpp)
+        Source/GUI/MainComponent.cpp
+        Source/GUI/SplittablePanel.cpp
+        Source/GUI/BasePanel.cpp)
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
 # project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use

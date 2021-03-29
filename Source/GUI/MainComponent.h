@@ -1,6 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "SplittablePanel.h"
 
 //==============================================================================
 /*
@@ -12,15 +13,17 @@ class MainComponent  : public juce::Component
 public:
     //==============================================================================
     MainComponent();
-    ~MainComponent() override;
+    ~MainComponent() override = default;
 
     //==============================================================================
-    void paint (juce::Graphics&) override;
     void resized() override;
+
+    //==============================================================================
+
 
 private:
     //==============================================================================
-    // Your private member variables go here...
+    std::unique_ptr<SplittablePanel> centralPanel;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
