@@ -7,12 +7,12 @@
 //==============================================================================
 SplittablePanel::SplittablePanel()
 {
-    panelA.reset(new BasePanel());
+    panelA.reset(new TabbedPanel());
     addAndMakeVisible(panelA.get());
 
-    auto* basePanel = dynamic_cast<BasePanel*>(panelA.get());
-    basePanel->onSplitMenuItemClicked = [&] (const BasePanel &panel, bool splitVertically) {
-        onPanelSplitMenuItemClicked(panel, splitVertically);
+    auto* hostPanel = dynamic_cast<TabbedPanel*>(panelA.get());
+    hostPanel->onSplitMenuItemClicked = [&] (bool splitVertically) {
+        onPanelSplitMenuItemClicked(splitVertically);
     };
 
     layout.setItemLayout(0, -1, -1, -1);
@@ -43,7 +43,7 @@ void SplittablePanel::split(bool vertically) {
     // set the first panel to be a nested SplittablePanel
     panelA.reset(new SplittablePanel());
     auto* newPanelA = dynamic_cast<SplittablePanel*>(panelA.get());
-    dynamic_cast<BasePanel*>(newPanelA->getPanelA())->onCloseMenuItemClicked = [&] (const BasePanel &panel) {
+    dynamic_cast<TabbedPanel*>(newPanelA->getPanelA())->onCloseMenuItemClicked = [&] (const TabbedPanel &panel) {
         onPanelCloseMenuItemClicked(panel);
     };
     addAndMakeVisible(panelA.get());
@@ -55,7 +55,7 @@ void SplittablePanel::split(bool vertically) {
     // add the second nested SplittablePanel
     panelB.reset(new SplittablePanel());
     auto* newPanelB = dynamic_cast<SplittablePanel*>(panelB.get());
-    dynamic_cast<BasePanel*>(newPanelB->getPanelA())->onCloseMenuItemClicked = [&] (const BasePanel &panel) {
+    dynamic_cast<TabbedPanel*>(newPanelB->getPanelA())->onCloseMenuItemClicked = [&] (const TabbedPanel &panel) {
         onPanelCloseMenuItemClicked(panel);
     };
     addAndMakeVisible(panelB.get());
@@ -69,12 +69,12 @@ void SplittablePanel::split(bool vertically) {
 }
 
 //==============================================================================
-void SplittablePanel::onPanelSplitMenuItemClicked(const BasePanel &panel, bool splitVertically)
+void SplittablePanel::onPanelSplitMenuItemClicked(bool splitVertically)
 {
     split(splitVertically);
 }
 
-void SplittablePanel::onPanelCloseMenuItemClicked(const BasePanel &panel)
+void SplittablePanel::onPanelCloseMenuItemClicked(const TabbedPanel &panel)
 {
     if  (!panelB and !resizer) return;
 
@@ -84,6 +84,7 @@ void SplittablePanel::onPanelCloseMenuItemClicked(const BasePanel &panel)
     panelB.reset(nullptr);
     resizer.reset(nullptr);
     layout.setItemLayout(0, -1, -1, -1);
+
     resized();
 }
 

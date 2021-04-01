@@ -62,7 +62,7 @@ target_sources(PROMISE
         Source/GUI/Main.cpp
         Source/GUI/MainComponent.cpp
         Source/GUI/SplittablePanel.cpp
-        Source/GUI/BasePanel.cpp)
+        Source/GUI/TabbedPanel.cpp)
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
 # project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use

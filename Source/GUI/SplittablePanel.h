@@ -5,7 +5,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "BasePanel.h"
+#include "TabbedPanel.h"
 
 
 class SplittablePanel : public juce::Component {
@@ -29,8 +29,8 @@ private:
     std::unique_ptr<juce::StretchableLayoutResizerBar> resizer;
     juce::StretchableLayoutManager layout;
 
-    void onPanelSplitMenuItemClicked(const BasePanel &panel, bool splitVertically);
-    void onPanelCloseMenuItemClicked(const BasePanel &panel);
+    void onPanelSplitMenuItemClicked(bool splitVertically);
+    void onPanelCloseMenuItemClicked(const TabbedPanel &panel);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SplittablePanel)
 };
