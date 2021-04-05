@@ -10,9 +10,12 @@ SplittablePanel::SplittablePanel()
     panelA.reset(new TabbedPanel());
     addAndMakeVisible(panelA.get());
 
-    auto* hostPanel = dynamic_cast<TabbedPanel*>(panelA.get());
-    hostPanel->onSplitMenuItemClicked = [&] (bool splitVertically) {
-        onPanelSplitMenuItemClicked(splitVertically);
+    auto* tabbedPanel = dynamic_cast<TabbedPanel*>(panelA.get());
+    tabbedPanel->onSplitMenuItemClicked = [&] (bool splitVertically) {
+        onTabbedPanelSplitMenuItemClicked(splitVertically);
+    };
+    tabbedPanel->onMaximizedStateChanged = [&] (const TabbedPanel &panel, bool state) {
+        onTabbedPanelMaximizedStateChanged(state);
     };
 
     layout.setItemLayout(0, -1, -1, -1);
@@ -41,24 +44,14 @@ void SplittablePanel::split(bool vertically) {
     verticalSplit = vertically;
 
     // set the first panel to be a nested SplittablePanel
-    panelA.reset(new SplittablePanel());
-    auto* newPanelA = dynamic_cast<SplittablePanel*>(panelA.get());
-    dynamic_cast<TabbedPanel*>(newPanelA->getPanelA())->onCloseMenuItemClicked = [&] (const TabbedPanel &panel) {
-        onPanelCloseMenuItemClicked(panel);
-    };
-    addAndMakeVisible(panelA.get());
+    setupNestedPanel(panelA);
 
     // add the resizer bar
     resizer.reset(new juce::StretchableLayoutResizerBar(std::addressof(layout), 1, !verticalSplit));
     addAndMakeVisible(resizer.get());
 
     // add the second nested SplittablePanel
-    panelB.reset(new SplittablePanel());
-    auto* newPanelB = dynamic_cast<SplittablePanel*>(panelB.get());
-    dynamic_cast<TabbedPanel*>(newPanelB->getPanelA())->onCloseMenuItemClicked = [&] (const TabbedPanel &panel) {
-        onPanelCloseMenuItemClicked(panel);
-    };
-    addAndMakeVisible(panelB.get());
+    setupNestedPanel(panelB);
 
     // set layout
     layout.setItemLayout(0, -0.2, -1, -1);
@@ -68,13 +61,27 @@ void SplittablePanel::split(bool vertically) {
     resized();
 }
 
+void SplittablePanel::setupNestedPanel(std::unique_ptr<juce::Component> &nestedPanel)
+{
+    nestedPanel.reset(new SplittablePanel());
+    auto* newPanelA = dynamic_cast<SplittablePanel*>(nestedPanel.get());
+    auto* tabbedPanelA = dynamic_cast<TabbedPanel*>(newPanelA->getPanelA());
+    tabbedPanelA->onCloseMenuItemClicked = [&] (const TabbedPanel &panel) {
+        onTabbedPanelCloseMenuItemClicked(panel);
+    };
+    newPanelA->onMaximizedStateChanged = [&] (const SplittablePanel &panel, bool state) {
+        onSplittablePanelMaximizedStateChanged(panel, state);
+    };
+    addAndMakeVisible(nestedPanel.get());
+}
+
 //==============================================================================
-void SplittablePanel::onPanelSplitMenuItemClicked(bool splitVertically)
+void SplittablePanel::onTabbedPanelSplitMenuItemClicked(bool splitVertically)
 {
     split(splitVertically);
 }
 
-void SplittablePanel::onPanelCloseMenuItemClicked(const TabbedPanel &panel)
+void SplittablePanel::onTabbedPanelCloseMenuItemClicked(const TabbedPanel &panel)
 {
     if  (!panelB and !resizer) return;
 
@@ -88,3 +95,46 @@ void SplittablePanel::onPanelCloseMenuItemClicked(const TabbedPanel &panel)
     resized();
 }
 
+void  SplittablePanel::onTabbedPanelMaximizedStateChanged(bool maximizedState) const
+{
+    if (onMaximizedStateChanged) onMaximizedStateChanged(*this, maximizedState);
+}
+
+void SplittablePanel::onSplittablePanelMaximizedStateChanged(const SplittablePanel &panel, bool maximizedState)
+{
+    if (panelB && resizer) {
+        if (std::addressof(panel) == panelA.get()) {
+            if (maximizedState) {
+                panelB->setVisible(false);
+                resizer->setVisible(false);
+                layout.setItemLayout(0, -1, -1, -1);
+                layout.setItemLayout(1, 0, 0, 0);
+                layout.setItemLayout(2, 0, 0, 0);
+            }
+            else {
+                panelB->setVisible(true);
+                resizer->setVisible(true);
+                layout.setItemLayout(0, -0.2, -1, -1);
+                layout.setItemLayout(1, 4, 4, 4);
+                layout.setItemLayout(2, -0.2, -1, -1);
+            }
+        } else {
+            if (maximizedState) {
+                panelA->setVisible(false);
+                resizer->setVisible(false);
+                layout.setItemLayout(0, 0, 0, 0);
+                layout.setItemLayout(1, 0, 0, 0);
+                layout.setItemLayout(2, -1, -1, -1);
+            }
+            else {
+                panelA->setVisible(true);
+                resizer->setVisible(true);
+                layout.setItemLayout(0, -0.2, -1, -1);
+                layout.setItemLayout(1, 4, 4, 4);
+                layout.setItemLayout(2, -0.2, -1, -1);
+            }
+        }
+    }
+    resized();
+    if (onMaximizedStateChanged) onMaximizedStateChanged(*this, maximizedState);
+}

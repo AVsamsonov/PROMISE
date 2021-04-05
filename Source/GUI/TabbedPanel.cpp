@@ -17,27 +17,48 @@ TabbedPanel::TabbedPanel()
 
     topRightMenuButton->onClick = [&] {
         juce::PopupMenu menu;
-        menu.addItem("Split Panel Horizontally", [&] () {
+        menu.addItem("Split Panel Horizontally", !maximizedState, false, [&] () {
             if (onSplitMenuItemClicked) onSplitMenuItemClicked(false);
         });
-        menu.addItem("Split Panel Vertically", [&] () {
+        menu.addItem("Split Panel Vertically", !maximizedState, false, [&] () {
             if (onSplitMenuItemClicked) onSplitMenuItemClicked(true);
         });
-        menu.addItem("Close Panel", [&] () {
+        menu.addItem("Close Panel", !maximizedState, false, [&] () {
             if (onCloseMenuItemClicked) onCloseMenuItemClicked(*this);
         });
         menu.showMenuAsync(juce::PopupMenu::Options{});
     };
+
+    // Add maximize button
+    maximizeButton.reset(new juce::DrawableButton("PanelMaximize", juce::DrawableButton::ButtonStyle::ImageStretched));
+    maximizeButtonIcon = juce::Drawable::createFromImageData(BinaryData::maximize_svg, BinaryData::maximize_svgSize);
+    maximizeButtonIcon->replaceColour(juce::Colours::black, juce::Colours::white);
+    maximizeButton->setImages(maximizeButtonIcon.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+    maximizeButton->setClickingTogglesState(true);
+    addAndMakeVisible(maximizeButton.get());
+
+    maximizeButton->onStateChange = [&] {
+        onMaximizeButtonStageChanged();
+    };
 }
 
 //==============================================================================
-void TabbedPanel::resized() {
+void TabbedPanel::resized()
+{
     juce::TabbedComponent::resized();
 
     auto b = getLocalBounds();
     if (!b.isEmpty()) {
-        topRightMenuButton->setBounds(b.removeFromTop(20)
-                                              .removeFromRight(20)
-                                              .reduced(4));
+        topRightMenuButton->setBounds(b.getRight()-14, 4, 12, 12);
+        maximizeButton->setBounds(b.getRight()-34, 4, 12, 12);
+    }
+}
+
+//==============================================================================
+void TabbedPanel::onMaximizeButtonStageChanged()
+{
+    if (maximizedState != maximizeButton->getToggleState()) {
+        maximizedState = maximizeButton->getToggleState();
+        if (onMaximizedStateChanged) onMaximizedStateChanged(*this, maximizeButton->getToggleState());
     }
 }
