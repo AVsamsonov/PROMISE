@@ -6,15 +6,20 @@
 
 //==============================================================================
 SplittablePanel::SplittablePanel()
+    : SplittablePanel(new TabbedPanel())
 {
-    panelA.reset(new TabbedPanel());
+}
+
+SplittablePanel::SplittablePanel(TabbedPanel *srcTabbedPanel)
+{
+    panelA.reset(srcTabbedPanel);
     addAndMakeVisible(panelA.get());
 
     auto* tabbedPanel = dynamic_cast<TabbedPanel*>(panelA.get());
     tabbedPanel->onSplitMenuItemClicked = [&] (bool splitVertically) {
         onTabbedPanelSplitMenuItemClicked(splitVertically);
     };
-    tabbedPanel->onMaximizedStateChanged = [&] (const TabbedPanel &panel, bool state) {
+    tabbedPanel->onMaximizedStateChanged = [&] (bool state) {
         onTabbedPanelMaximizedStateChanged(state);
     };
 
@@ -25,6 +30,7 @@ SplittablePanel::~SplittablePanel()
 {
     panelA = nullptr;
     panelB = nullptr;
+    resizer = nullptr;
 }
 
 //==============================================================================
@@ -44,7 +50,7 @@ void SplittablePanel::split(bool vertically) {
     verticalSplit = vertically;
 
     // set the first panel to be a nested SplittablePanel
-    setupNestedPanel(panelA);
+    setupNestedPanel(panelA, true);
 
     // add the resizer bar
     resizer.reset(new juce::StretchableLayoutResizerBar(std::addressof(layout), 1, !verticalSplit));
@@ -61,9 +67,16 @@ void SplittablePanel::split(bool vertically) {
     resized();
 }
 
-void SplittablePanel::setupNestedPanel(std::unique_ptr<juce::Component> &nestedPanel)
+void SplittablePanel::setupNestedPanel(std::unique_ptr<juce::Component> &nestedPanel, bool movePanelA)
 {
-    nestedPanel.reset(new SplittablePanel());
+    if (movePanelA) {
+        auto* srcPanelA = dynamic_cast<TabbedPanel*>(nestedPanel.release());
+        nestedPanel.reset(new SplittablePanel(srcPanelA));
+    }
+    else {
+        nestedPanel.reset(new SplittablePanel());
+    }
+
     auto* newPanelA = dynamic_cast<SplittablePanel*>(nestedPanel.get());
     auto* tabbedPanelA = dynamic_cast<TabbedPanel*>(newPanelA->getPanelA());
     tabbedPanelA->onCloseMenuItemClicked = [&] (const TabbedPanel &panel) {

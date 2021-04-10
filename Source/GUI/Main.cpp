@@ -8,6 +8,8 @@
 
 #include <JuceHeader.h>
 #include "MainComponent.h"
+#include <pybind11/embed.h>
+namespace py = pybind11;
 
 //==============================================================================
 class PROMISEApplication  : public juce::JUCEApplication
@@ -23,16 +25,14 @@ public:
     //==============================================================================
     void initialise (const juce::String&) override
     {
-        // This method is where you should put your application's initialisation code..
-
+        py::initialize_interpreter();
         mainWindow.reset (new MainWindow (getApplicationName()));
     }
 
     void shutdown() override
     {
-        // Add your application's shutdown code here..
-
         mainWindow = nullptr; // (deletes our window)
+        py::finalize_interpreter();
     }
 
     //==============================================================================

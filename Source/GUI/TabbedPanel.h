@@ -19,12 +19,12 @@ public:
     //==============================================================================
     std::function<void(bool splitVertically)> onSplitMenuItemClicked;
     std::function<void(const TabbedPanel &panel)> onCloseMenuItemClicked;
-    std::function<void(const TabbedPanel &panel, bool maximizedState)> onMaximizedStateChanged;
+    std::function<void(bool maximizedState)> onMaximizedStateChanged;
 
 private:
     //==============================================================================
-    std::unique_ptr<juce::ArrowButton> topRightMenuButton;
-    std::unique_ptr<juce::DrawableButton> maximizeButton;
+    juce::ArrowButton topRightMenuButton = {"PanelMenu", 0.25, juce::Colours::white};
+    juce::DrawableButton maximizeButton = {"PanelMaximize", juce::DrawableButton::ButtonStyle::ImageStretched};
     std::unique_ptr<juce::Drawable> maximizeButtonIcon;
 
     bool maximizedState = false;

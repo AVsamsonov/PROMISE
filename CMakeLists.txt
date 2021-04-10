@@ -26,6 +26,9 @@ project(PROMISE VERSION 0.0.1)
 # or
 add_subdirectory(JUCE)                    # If you've put JUCE in a subdirectory called JUCE
 
+# Find python package
+add_subdirectory(Source/pybind11)
+
 # If your app depends the VST2 SDK, perhaps to host VST2 plugins, CMake needs to be told where
 # to find the SDK on your system. This setup should be done before calling `juce_add_gui_app`.
 
@@ -62,7 +65,8 @@ target_sources(PROMISE
         Source/GUI/Main.cpp
         Source/GUI/MainComponent.cpp
         Source/GUI/SplittablePanel.cpp
-        Source/GUI/TabbedPanel.cpp)
+        Source/GUI/TabbedPanel.cpp
+        Source/GUI/PythonShell.cpp)
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
 # project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use
@@ -99,6 +103,7 @@ target_link_libraries(PROMISE
     PRIVATE
          GuiAppData            # If we'd created a binary data target, we'd link to it here
         juce::juce_gui_extra
+        pybind11::embed
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags

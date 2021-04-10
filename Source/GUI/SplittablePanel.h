@@ -13,6 +13,7 @@ public:
     //==============================================================================
     SplittablePanel();
     ~SplittablePanel() override;
+    explicit SplittablePanel(TabbedPanel *srcTabbedPanel);
 
     //==============================================================================
     void resized() override;
@@ -36,7 +37,7 @@ private:
     void onTabbedPanelMaximizedStateChanged(bool state) const;
     void onSplittablePanelMaximizedStateChanged(const SplittablePanel &panel, bool state);
 
-    void setupNestedPanel(std::unique_ptr<juce::Component> &panel);
+    void setupNestedPanel(std::unique_ptr<juce::Component> &panel, bool movePanelA = false);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SplittablePanel)
 };
