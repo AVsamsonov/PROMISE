@@ -66,7 +66,8 @@ target_sources(PROMISE
         Source/GUI/MainComponent.cpp
         Source/GUI/SplittablePanel.cpp
         Source/GUI/TabbedPanel.cpp
-        Source/GUI/PythonShell.cpp)
+        Source/GUI/PythonShell.cpp
+        Source/GUI/PreferencesDialog.cpp)
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
 # project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use
@@ -103,6 +104,8 @@ target_link_libraries(PROMISE
     PRIVATE
          GuiAppData            # If we'd created a binary data target, we'd link to it here
         juce::juce_gui_extra
+        juce::juce_audio_devices
+        juce::juce_audio_utils
         pybind11::embed
     PUBLIC
         juce::juce_recommended_config_flags

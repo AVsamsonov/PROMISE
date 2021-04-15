@@ -26,6 +26,13 @@ public:
     void initialise (const juce::String&) override
     {
         py::initialize_interpreter();
+
+        juce::PropertiesFile::Options options;
+        options.applicationName     = getApplicationName();
+        options.filenameSuffix      = "settings";
+        options.osxLibrarySubFolder = "Preferences";
+        appProperties.setStorageParameters(options);
+
         mainWindow.reset (new MainWindow (getApplicationName()));
     }
 
@@ -49,6 +56,9 @@ public:
         // this method is invoked, and the commandLine parameter tells you what
         // the other instance's command-line arguments were.
     }
+
+    //==============================================================================
+    juce::ApplicationProperties appProperties;
 
     //==============================================================================
     /*
@@ -100,6 +110,10 @@ public:
 private:
     std::unique_ptr<MainWindow> mainWindow;
 };
+
+//==============================================================================
+static PROMISEApplication& getApp() { return *dynamic_cast<PROMISEApplication*>(juce::JUCEApplication::getInstance()); }
+juce::ApplicationProperties& getAppProperties() { return getApp().appProperties; }
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
