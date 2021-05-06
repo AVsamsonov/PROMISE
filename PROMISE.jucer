@@ -4,9 +4,12 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="quUcTB" name="PROMISE">
     <GROUP id="{2A1E346B-4E35-DAA1-DAF8-7EDE57D8BB49}" name="Source">
-      <GROUP id="{55C7E9A2-8E24-F121-1864-373D0AF598BB}" name="GUI">
-        <FILE id="N7kZaX" name="BasePanel.cpp" compile="1" resource="0" file="Source/GUI/BasePanel.cpp"/>
-        <FILE id="GgJUH2" name="BasePanel.h" compile="0" resource="0" file="Source/GUI/BasePanel.h"/>
+      <GROUP id="{E459D399-8BF4-DECD-35FF-D9190E8415ED}" name="GUI">
+        <GROUP id="{8F9DA4C7-1929-472B-D993-1EB15C793236}" name="Assets">
+          <FILE id="rlnqlL" name="add.svg" compile="0" resource="1" file="Source/GUI/Assets/add.svg"/>
+          <FILE id="xAgtwP" name="close.svg" compile="0" resource="1" file="Source/GUI/Assets/close.svg"/>
+          <FILE id="eLd3AN" name="maximize.svg" compile="0" resource="1" file="Source/GUI/Assets/maximize.svg"/>
+        </GROUP>
         <FILE id="o1ydzo" name="Main.cpp" compile="1" resource="0" file="Source/GUI/Main.cpp"/>
         <FILE id="tuPDgt" name="MainComponent.cpp" compile="1" resource="0"
               file="Source/GUI/MainComponent.cpp"/>
@@ -15,6 +18,354 @@
               file="Source/GUI/SplittablePanel.cpp"/>
         <FILE id="wcio9K" name="SplittablePanel.h" compile="0" resource="0"
               file="Source/GUI/SplittablePanel.h"/>
+        <FILE id="oBueKz" name="PreferencesDialog.cpp" compile="1" resource="0"
+              file="Source/GUI/PreferencesDialog.cpp"/>
+        <FILE id="R8IW0y" name="PreferencesDialog.h" compile="0" resource="0"
+              file="Source/GUI/PreferencesDialog.h"/>
+        <FILE id="LnyOlj" name="PythonShell.cpp" compile="1" resource="0" file="Source/GUI/PythonShell.cpp"/>
+        <FILE id="GawVSz" name="PythonShell.h" compile="0" resource="0" file="Source/GUI/PythonShell.h"/>
+        <FILE id="jPEMm9" name="TabbedPanel.cpp" compile="1" resource="0" file="Source/GUI/TabbedPanel.cpp"/>
+        <FILE id="VTX4OS" name="TabbedPanel.h" compile="0" resource="0" file="Source/GUI/TabbedPanel.h"/>
+      </GROUP>
+      <GROUP id="{2483D001-2A87-6BE7-6927-BBBC93194B23}" name="pybind11">
+        <GROUP id="{8F3EDA3F-7A99-23AB-812C-6D7D113B82BE}" name="docs">
+          <GROUP id="{DA23B2FE-E2D4-E211-CE59-69717CBFD257}" name="_static">
+            <FILE id="daHWrf" name="theme_overrides.css" compile="0" resource="1"
+                  file="Source/pybind11/docs/_static/theme_overrides.css"/>
+          </GROUP>
+          <GROUP id="{D27E7F1F-5EB3-4B29-BFF2-8C5F6900EF30}" name="advanced">
+            <GROUP id="{F35D4D88-F08E-313A-63FB-2AF3F5154F7E}" name="cast">
+              <FILE id="aw7PWt" name="chrono.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/cast/chrono.rst"/>
+              <FILE id="jpjQ4a" name="custom.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/cast/custom.rst"/>
+              <FILE id="FdYH4A" name="eigen.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/cast/eigen.rst"/>
+              <FILE id="MHAPIY" name="functional.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/cast/functional.rst"/>
+              <FILE id="srcUBu" name="index.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/cast/index.rst"/>
+              <FILE id="MShqat" name="overview.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/cast/overview.rst"/>
+              <FILE id="AYz1NI" name="stl.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/cast/stl.rst"/>
+              <FILE id="QPFd3I" name="strings.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/cast/strings.rst"/>
+            </GROUP>
+            <GROUP id="{BD7F0F35-C747-888A-C710-0260FE720E2B}" name="pycpp">
+              <FILE id="eWOwhY" name="index.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/pycpp/index.rst"/>
+              <FILE id="LsnNWW" name="numpy.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/pycpp/numpy.rst"/>
+              <FILE id="xnjTEE" name="object.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/pycpp/object.rst"/>
+              <FILE id="iLf5ga" name="utilities.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/pycpp/utilities.rst"/>
+            </GROUP>
+            <FILE id="wom3hY" name="classes.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/classes.rst"/>
+            <FILE id="eOEdx3" name="embedding.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/embedding.rst"/>
+            <FILE id="S1iUl6" name="exceptions.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/exceptions.rst"/>
+            <FILE id="nMIXzq" name="functions.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/functions.rst"/>
+            <FILE id="adzKoH" name="misc.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/misc.rst"/>
+            <FILE id="lBaW6g" name="smart_ptrs.rst" compile="0" resource="1" file="Source/pybind11/docs/advanced/smart_ptrs.rst"/>
+          </GROUP>
+          <GROUP id="{FF9482EB-2E4F-8EB5-DA91-C5AC35A5E951}" name="cmake">
+            <FILE id="KSSDc8" name="index.rst" compile="0" resource="1" file="Source/pybind11/docs/cmake/index.rst"/>
+          </GROUP>
+          <FILE id="eiKV7t" name="basics.rst" compile="0" resource="1" file="Source/pybind11/docs/basics.rst"/>
+          <FILE id="iECgOx" name="benchmark.py" compile="0" resource="1" file="Source/pybind11/docs/benchmark.py"/>
+          <FILE id="RaDRTH" name="benchmark.rst" compile="0" resource="1" file="Source/pybind11/docs/benchmark.rst"/>
+          <FILE id="ZGvhCv" name="changelog.rst" compile="0" resource="1" file="Source/pybind11/docs/changelog.rst"/>
+          <FILE id="SMrc4H" name="classes.rst" compile="0" resource="1" file="Source/pybind11/docs/classes.rst"/>
+          <FILE id="XMrBKy" name="compiling.rst" compile="0" resource="1" file="Source/pybind11/docs/compiling.rst"/>
+          <FILE id="L2Lyrf" name="conf.py" compile="0" resource="1" file="Source/pybind11/docs/conf.py"/>
+          <FILE id="FRVa3o" name="Doxyfile" compile="0" resource="1" file="Source/pybind11/docs/Doxyfile"/>
+          <FILE id="GAW5OO" name="faq.rst" compile="0" resource="1" file="Source/pybind11/docs/faq.rst"/>
+          <FILE id="hXlq7r" name="index.rst" compile="0" resource="1" file="Source/pybind11/docs/index.rst"/>
+          <FILE id="lT8zmS" name="installing.rst" compile="0" resource="1" file="Source/pybind11/docs/installing.rst"/>
+          <FILE id="YUxPvO" name="limitations.rst" compile="0" resource="1" file="Source/pybind11/docs/limitations.rst"/>
+          <FILE id="a8RxYt" name="Makefile" compile="0" resource="1" file="Source/pybind11/docs/Makefile"/>
+          <FILE id="LHgztJ" name="pybind11-logo.png" compile="0" resource="1"
+                file="Source/pybind11/docs/pybind11-logo.png"/>
+          <FILE id="YFFcJm" name="pybind11_vs_boost_python1.png" compile="0"
+                resource="1" file="Source/pybind11/docs/pybind11_vs_boost_python1.png"/>
+          <FILE id="j0BY4B" name="pybind11_vs_boost_python1.svg" compile="0"
+                resource="1" file="Source/pybind11/docs/pybind11_vs_boost_python1.svg"/>
+          <FILE id="O0xXkh" name="pybind11_vs_boost_python2.png" compile="0"
+                resource="1" file="Source/pybind11/docs/pybind11_vs_boost_python2.png"/>
+          <FILE id="xDxMRH" name="pybind11_vs_boost_python2.svg" compile="0"
+                resource="1" file="Source/pybind11/docs/pybind11_vs_boost_python2.svg"/>
+          <FILE id="ecRvgU" name="reference.rst" compile="0" resource="1" file="Source/pybind11/docs/reference.rst"/>
+          <FILE id="CCAMcq" name="release.rst" compile="0" resource="1" file="Source/pybind11/docs/release.rst"/>
+          <FILE id="nypkuH" name="requirements.txt" compile="0" resource="1"
+                file="Source/pybind11/docs/requirements.txt"/>
+          <FILE id="Vyw1yc" name="upgrade.rst" compile="0" resource="1" file="Source/pybind11/docs/upgrade.rst"/>
+        </GROUP>
+        <GROUP id="{3B18D881-B12D-2095-0F3B-BAB9957E39E7}" name="include">
+          <GROUP id="{80BE8DCD-53D4-9531-1774-A16E27343134}" name="pybind11">
+            <GROUP id="{11E3816D-0F3A-ACB2-EA4E-4679D5C92D29}" name="detail">
+              <FILE id="kQWZuT" name="class.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/detail/class.h"/>
+              <FILE id="zpf7zJ" name="common.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/detail/common.h"/>
+              <FILE id="JNSOZk" name="descr.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/detail/descr.h"/>
+              <FILE id="GgCcuk" name="init.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/detail/init.h"/>
+              <FILE id="bjEMU1" name="internals.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/detail/internals.h"/>
+              <FILE id="lRuASA" name="type_caster_base.h" compile="0" resource="0"
+                    file="Source/pybind11/include/pybind11/detail/type_caster_base.h"/>
+              <FILE id="DaSz1K" name="typeid.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/detail/typeid.h"/>
+            </GROUP>
+            <FILE id="Xfg5X2" name="attr.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/attr.h"/>
+            <FILE id="DPIjOT" name="buffer_info.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/buffer_info.h"/>
+            <FILE id="y2W8n3" name="cast.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/cast.h"/>
+            <FILE id="TSgqRp" name="chrono.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/chrono.h"/>
+            <FILE id="iAvziW" name="common.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/common.h"/>
+            <FILE id="WE81wD" name="complex.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/complex.h"/>
+            <FILE id="Q9PCnq" name="eigen.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/eigen.h"/>
+            <FILE id="EVDWdp" name="embed.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/embed.h"/>
+            <FILE id="JjYKOU" name="eval.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/eval.h"/>
+            <FILE id="ftjMdq" name="functional.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/functional.h"/>
+            <FILE id="ZML6wP" name="gil.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/gil.h"/>
+            <FILE id="zdMmG5" name="iostream.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/iostream.h"/>
+            <FILE id="QTOvDj" name="numpy.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/numpy.h"/>
+            <FILE id="B4Xx4n" name="operators.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/operators.h"/>
+            <FILE id="WganvZ" name="options.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/options.h"/>
+            <FILE id="Jl3PSq" name="pybind11.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/pybind11.h"/>
+            <FILE id="nfekNM" name="pytypes.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/pytypes.h"/>
+            <FILE id="LK0Zev" name="stl.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/stl.h"/>
+            <FILE id="myRa7y" name="stl_bind.h" compile="0" resource="0" file="Source/pybind11/include/pybind11/stl_bind.h"/>
+          </GROUP>
+        </GROUP>
+        <GROUP id="{00AE41CB-50E6-5CEB-C59F-6A805736A605}" name="pybind11">
+          <FILE id="nSR7NY" name="__init__.py" compile="0" resource="1" file="Source/pybind11/pybind11/__init__.py"/>
+          <FILE id="r9dDjQ" name="__main__.py" compile="0" resource="1" file="Source/pybind11/pybind11/__main__.py"/>
+          <FILE id="o2YrEi" name="_version.py" compile="0" resource="1" file="Source/pybind11/pybind11/_version.py"/>
+          <FILE id="sSDQQk" name="_version.pyi" compile="0" resource="1" file="Source/pybind11/pybind11/_version.pyi"/>
+          <FILE id="tpwUR0" name="commands.py" compile="0" resource="1" file="Source/pybind11/pybind11/commands.py"/>
+          <FILE id="CQBjNQ" name="py.typed" compile="0" resource="1" file="Source/pybind11/pybind11/py.typed"/>
+          <FILE id="nWJFg4" name="setup_helpers.py" compile="0" resource="1"
+                file="Source/pybind11/pybind11/setup_helpers.py"/>
+          <FILE id="pAk9hZ" name="setup_helpers.pyi" compile="0" resource="1"
+                file="Source/pybind11/pybind11/setup_helpers.pyi"/>
+        </GROUP>
+        <GROUP id="{0360D97D-F48D-5584-E85B-9B786E8B2682}" name="tests">
+          <GROUP id="{E15D4949-CAAC-1391-C68D-3C26932EE6C2}" name="extra_python_package">
+            <FILE id="G3icye" name="pytest.ini" compile="0" resource="1" file="Source/pybind11/tests/extra_python_package/pytest.ini"/>
+            <FILE id="wDsVCm" name="test_files.py" compile="0" resource="1" file="Source/pybind11/tests/extra_python_package/test_files.py"/>
+          </GROUP>
+          <GROUP id="{10350F01-F26A-86C7-F096-F18876770AE5}" name="extra_setuptools">
+            <FILE id="NZzbVn" name="pytest.ini" compile="0" resource="1" file="Source/pybind11/tests/extra_setuptools/pytest.ini"/>
+            <FILE id="gDeHr2" name="test_setuphelper.py" compile="0" resource="1"
+                  file="Source/pybind11/tests/extra_setuptools/test_setuphelper.py"/>
+          </GROUP>
+          <GROUP id="{93FE7DCE-280A-91FA-0021-BF0A630704A1}" name="test_cmake_build">
+            <GROUP id="{149DCDC4-0C79-364B-DDFE-64429D3E808F}" name="installed_embed">
+              <FILE id="Shg78a" name="CMakeLists.txt" compile="0" resource="1" file="Source/pybind11/tests/test_cmake_build/installed_embed/CMakeLists.txt"/>
+            </GROUP>
+            <GROUP id="{08ADBEEA-DDED-16E1-CC5A-D5693C0FA4EF}" name="installed_function">
+              <FILE id="LeJ9Qg" name="CMakeLists.txt" compile="0" resource="1" file="Source/pybind11/tests/test_cmake_build/installed_function/CMakeLists.txt"/>
+            </GROUP>
+            <GROUP id="{6AC4B983-41CC-80C6-46D1-FF1233299D02}" name="installed_target">
+              <FILE id="kqjASF" name="CMakeLists.txt" compile="0" resource="1" file="Source/pybind11/tests/test_cmake_build/installed_target/CMakeLists.txt"/>
+            </GROUP>
+            <GROUP id="{F2FBEE11-439A-7F42-FF49-1E47AB831774}" name="subdirectory_embed">
+              <FILE id="YZ2nKD" name="CMakeLists.txt" compile="0" resource="1" file="Source/pybind11/tests/test_cmake_build/subdirectory_embed/CMakeLists.txt"/>
+            </GROUP>
+            <GROUP id="{17F9AF56-52A0-1ED3-D082-4FA383CE45B2}" name="subdirectory_function">
+              <FILE id="Qyel12" name="CMakeLists.txt" compile="0" resource="1" file="Source/pybind11/tests/test_cmake_build/subdirectory_function/CMakeLists.txt"/>
+            </GROUP>
+            <GROUP id="{646544CA-A4E4-33F3-C025-7D49B2D9E1DA}" name="subdirectory_target">
+              <FILE id="KkpdUM" name="CMakeLists.txt" compile="0" resource="1" file="Source/pybind11/tests/test_cmake_build/subdirectory_target/CMakeLists.txt"/>
+            </GROUP>
+            <FILE id="RQ6kOK" name="CMakeLists.txt" compile="0" resource="1" file="Source/pybind11/tests/test_cmake_build/CMakeLists.txt"/>
+            <FILE id="uNYHDE" name="embed.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_cmake_build/embed.cpp"/>
+            <FILE id="foCMZZ" name="main.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_cmake_build/main.cpp"/>
+            <FILE id="lQf7KP" name="test.py" compile="0" resource="1" file="Source/pybind11/tests/test_cmake_build/test.py"/>
+          </GROUP>
+          <GROUP id="{DA4BD34E-3C05-A70F-3837-D150378216FF}" name="test_embed">
+            <FILE id="cC8YiZ" name="catch.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_embed/catch.cpp"/>
+            <FILE id="sg2mdp" name="CMakeLists.txt" compile="0" resource="1" file="Source/pybind11/tests/test_embed/CMakeLists.txt"/>
+            <FILE id="ypZqzs" name="external_module.cpp" compile="1" resource="0"
+                  file="Source/pybind11/tests/test_embed/external_module.cpp"/>
+            <FILE id="chQN6C" name="test_interpreter.cpp" compile="1" resource="0"
+                  file="Source/pybind11/tests/test_embed/test_interpreter.cpp"/>
+            <FILE id="ObIax0" name="test_interpreter.py" compile="0" resource="1"
+                  file="Source/pybind11/tests/test_embed/test_interpreter.py"/>
+          </GROUP>
+          <FILE id="AYeUjT" name="CMakeLists.txt" compile="0" resource="1" file="Source/pybind11/tests/CMakeLists.txt"/>
+          <FILE id="LQcwd3" name="conftest.py" compile="0" resource="1" file="Source/pybind11/tests/conftest.py"/>
+          <FILE id="iEVi2W" name="constructor_stats.h" compile="0" resource="0"
+                file="Source/pybind11/tests/constructor_stats.h"/>
+          <FILE id="IwQHvu" name="cross_module_gil_utils.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/cross_module_gil_utils.cpp"/>
+          <FILE id="lJznDV" name="env.py" compile="0" resource="1" file="Source/pybind11/tests/env.py"/>
+          <FILE id="Nanr5X" name="local_bindings.h" compile="0" resource="0"
+                file="Source/pybind11/tests/local_bindings.h"/>
+          <FILE id="e8dwBq" name="object.h" compile="0" resource="0" file="Source/pybind11/tests/object.h"/>
+          <FILE id="B2QODS" name="pybind11_cross_module_tests.cpp" compile="1"
+                resource="0" file="Source/pybind11/tests/pybind11_cross_module_tests.cpp"/>
+          <FILE id="WQc2rc" name="pybind11_tests.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/pybind11_tests.cpp"/>
+          <FILE id="jhqeoV" name="pybind11_tests.h" compile="0" resource="0"
+                file="Source/pybind11/tests/pybind11_tests.h"/>
+          <FILE id="Putm9x" name="pytest.ini" compile="0" resource="1" file="Source/pybind11/tests/pytest.ini"/>
+          <FILE id="migb0F" name="requirements.txt" compile="0" resource="1"
+                file="Source/pybind11/tests/requirements.txt"/>
+          <FILE id="QzwQ6p" name="test_async.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_async.cpp"/>
+          <FILE id="S7tuib" name="test_async.py" compile="0" resource="1" file="Source/pybind11/tests/test_async.py"/>
+          <FILE id="X2wLd2" name="test_buffers.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_buffers.cpp"/>
+          <FILE id="xNomJO" name="test_buffers.py" compile="0" resource="1" file="Source/pybind11/tests/test_buffers.py"/>
+          <FILE id="dBxO9B" name="test_builtin_casters.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_builtin_casters.cpp"/>
+          <FILE id="xdGH36" name="test_builtin_casters.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_builtin_casters.py"/>
+          <FILE id="AtTNYK" name="test_call_policies.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_call_policies.cpp"/>
+          <FILE id="mevOko" name="test_call_policies.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_call_policies.py"/>
+          <FILE id="zjsNs2" name="test_callbacks.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_callbacks.cpp"/>
+          <FILE id="NmnJBW" name="test_callbacks.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_callbacks.py"/>
+          <FILE id="K9kyIW" name="test_chrono.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_chrono.cpp"/>
+          <FILE id="rDpRXE" name="test_chrono.py" compile="0" resource="1" file="Source/pybind11/tests/test_chrono.py"/>
+          <FILE id="LBbUPd" name="test_class.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_class.cpp"/>
+          <FILE id="LnHNeh" name="test_class.py" compile="0" resource="1" file="Source/pybind11/tests/test_class.py"/>
+          <FILE id="JwBmf4" name="test_constants_and_functions.cpp" compile="1"
+                resource="0" file="Source/pybind11/tests/test_constants_and_functions.cpp"/>
+          <FILE id="AmQIm6" name="test_constants_and_functions.py" compile="0"
+                resource="1" file="Source/pybind11/tests/test_constants_and_functions.py"/>
+          <FILE id="FW7DQi" name="test_copy_move.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_copy_move.cpp"/>
+          <FILE id="MooGOx" name="test_copy_move.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_copy_move.py"/>
+          <FILE id="YS0suo" name="test_custom_type_casters.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_custom_type_casters.cpp"/>
+          <FILE id="Ikc2Vr" name="test_custom_type_casters.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_custom_type_casters.py"/>
+          <FILE id="Xx9YQz" name="test_docstring_options.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_docstring_options.cpp"/>
+          <FILE id="GFnDhm" name="test_docstring_options.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_docstring_options.py"/>
+          <FILE id="q6JSM0" name="test_eigen.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_eigen.cpp"/>
+          <FILE id="ZPK2K7" name="test_eigen.py" compile="0" resource="1" file="Source/pybind11/tests/test_eigen.py"/>
+          <FILE id="gSAbnb" name="test_enum.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_enum.cpp"/>
+          <FILE id="k3TWc8" name="test_enum.py" compile="0" resource="1" file="Source/pybind11/tests/test_enum.py"/>
+          <FILE id="hMVU6x" name="test_eval.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_eval.cpp"/>
+          <FILE id="wlCt8q" name="test_eval.py" compile="0" resource="1" file="Source/pybind11/tests/test_eval.py"/>
+          <FILE id="wUZLvb" name="test_eval_call.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_eval_call.py"/>
+          <FILE id="dlZZG4" name="test_exceptions.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_exceptions.cpp"/>
+          <FILE id="Uugmz1" name="test_exceptions.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_exceptions.py"/>
+          <FILE id="oB0P7T" name="test_factory_constructors.cpp" compile="1"
+                resource="0" file="Source/pybind11/tests/test_factory_constructors.cpp"/>
+          <FILE id="cUup9z" name="test_factory_constructors.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_factory_constructors.py"/>
+          <FILE id="xqAgly" name="test_gil_scoped.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_gil_scoped.cpp"/>
+          <FILE id="QZCZYM" name="test_gil_scoped.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_gil_scoped.py"/>
+          <FILE id="g5bsjt" name="test_iostream.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_iostream.cpp"/>
+          <FILE id="eAvXjK" name="test_iostream.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_iostream.py"/>
+          <FILE id="CXaAgt" name="test_kwargs_and_defaults.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_kwargs_and_defaults.cpp"/>
+          <FILE id="nyxbAl" name="test_kwargs_and_defaults.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_kwargs_and_defaults.py"/>
+          <FILE id="Er6Xau" name="test_local_bindings.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_local_bindings.cpp"/>
+          <FILE id="F24I3i" name="test_local_bindings.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_local_bindings.py"/>
+          <FILE id="kdhM9V" name="test_methods_and_attributes.cpp" compile="1"
+                resource="0" file="Source/pybind11/tests/test_methods_and_attributes.cpp"/>
+          <FILE id="z2npxo" name="test_methods_and_attributes.py" compile="0"
+                resource="1" file="Source/pybind11/tests/test_methods_and_attributes.py"/>
+          <FILE id="t952ym" name="test_modules.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_modules.cpp"/>
+          <FILE id="s8XEsp" name="test_modules.py" compile="0" resource="1" file="Source/pybind11/tests/test_modules.py"/>
+          <FILE id="RdVNvh" name="test_multiple_inheritance.cpp" compile="1"
+                resource="0" file="Source/pybind11/tests/test_multiple_inheritance.cpp"/>
+          <FILE id="pATqgq" name="test_multiple_inheritance.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_multiple_inheritance.py"/>
+          <FILE id="PDy4kD" name="test_numpy_array.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_numpy_array.cpp"/>
+          <FILE id="a19beA" name="test_numpy_array.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_numpy_array.py"/>
+          <FILE id="gHJoLA" name="test_numpy_dtypes.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_numpy_dtypes.cpp"/>
+          <FILE id="YdAnfe" name="test_numpy_dtypes.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_numpy_dtypes.py"/>
+          <FILE id="GLfWQe" name="test_numpy_vectorize.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_numpy_vectorize.cpp"/>
+          <FILE id="Qqowem" name="test_numpy_vectorize.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_numpy_vectorize.py"/>
+          <FILE id="FYNvn1" name="test_opaque_types.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_opaque_types.cpp"/>
+          <FILE id="jXf1Pr" name="test_opaque_types.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_opaque_types.py"/>
+          <FILE id="IlpisS" name="test_operator_overloading.cpp" compile="1"
+                resource="0" file="Source/pybind11/tests/test_operator_overloading.cpp"/>
+          <FILE id="E73OWO" name="test_operator_overloading.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_operator_overloading.py"/>
+          <FILE id="PHk0eB" name="test_pickling.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_pickling.cpp"/>
+          <FILE id="nxWPRp" name="test_pickling.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_pickling.py"/>
+          <FILE id="XobYl6" name="test_pytypes.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_pytypes.cpp"/>
+          <FILE id="RA4l4R" name="test_pytypes.py" compile="0" resource="1" file="Source/pybind11/tests/test_pytypes.py"/>
+          <FILE id="hsdXvy" name="test_sequences_and_iterators.cpp" compile="1"
+                resource="0" file="Source/pybind11/tests/test_sequences_and_iterators.cpp"/>
+          <FILE id="zhy3XN" name="test_sequences_and_iterators.py" compile="0"
+                resource="1" file="Source/pybind11/tests/test_sequences_and_iterators.py"/>
+          <FILE id="ZKrASm" name="test_smart_ptr.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_smart_ptr.cpp"/>
+          <FILE id="lvkaAf" name="test_smart_ptr.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_smart_ptr.py"/>
+          <FILE id="ttRkOD" name="test_stl.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_stl.cpp"/>
+          <FILE id="oAAsWn" name="test_stl.py" compile="0" resource="1" file="Source/pybind11/tests/test_stl.py"/>
+          <FILE id="riAlU8" name="test_stl_binders.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_stl_binders.cpp"/>
+          <FILE id="sJsKWi" name="test_stl_binders.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_stl_binders.py"/>
+          <FILE id="LrAfbE" name="test_tagbased_polymorphic.cpp" compile="1"
+                resource="0" file="Source/pybind11/tests/test_tagbased_polymorphic.cpp"/>
+          <FILE id="PVv2iQ" name="test_tagbased_polymorphic.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_tagbased_polymorphic.py"/>
+          <FILE id="WkJ6eW" name="test_union.cpp" compile="1" resource="0" file="Source/pybind11/tests/test_union.cpp"/>
+          <FILE id="ankxmi" name="test_union.py" compile="0" resource="1" file="Source/pybind11/tests/test_union.py"/>
+          <FILE id="QvFXiD" name="test_virtual_functions.cpp" compile="1" resource="0"
+                file="Source/pybind11/tests/test_virtual_functions.cpp"/>
+          <FILE id="CgiNs2" name="test_virtual_functions.py" compile="0" resource="1"
+                file="Source/pybind11/tests/test_virtual_functions.py"/>
+          <FILE id="pomzdT" name="valgrind-numpy-scipy.supp" compile="0" resource="1"
+                file="Source/pybind11/tests/valgrind-numpy-scipy.supp"/>
+          <FILE id="MWuUmE" name="valgrind-python.supp" compile="0" resource="1"
+                file="Source/pybind11/tests/valgrind-python.supp"/>
+        </GROUP>
+        <GROUP id="{9B9B13C2-600A-6E54-94B7-28B6A13F0982}" name="tools">
+          <FILE id="vAKa3X" name="check-style.sh" compile="0" resource="1" file="Source/pybind11/tools/check-style.sh"/>
+          <FILE id="RRTQIA" name="cmake_uninstall.cmake.in" compile="0" resource="1"
+                file="Source/pybind11/tools/cmake_uninstall.cmake.in"/>
+          <FILE id="aWcsa6" name="FindCatch.cmake" compile="0" resource="1" file="Source/pybind11/tools/FindCatch.cmake"/>
+          <FILE id="yAFiEK" name="FindEigen3.cmake" compile="0" resource="1"
+                file="Source/pybind11/tools/FindEigen3.cmake"/>
+          <FILE id="Ku7KMy" name="FindPythonLibsNew.cmake" compile="0" resource="1"
+                file="Source/pybind11/tools/FindPythonLibsNew.cmake"/>
+          <FILE id="XLoTOI" name="libsize.py" compile="0" resource="1" file="Source/pybind11/tools/libsize.py"/>
+          <FILE id="Aokeke" name="make_changelog.py" compile="0" resource="1"
+                file="Source/pybind11/tools/make_changelog.py"/>
+          <FILE id="wlzyaI" name="pybind11Common.cmake" compile="0" resource="1"
+                file="Source/pybind11/tools/pybind11Common.cmake"/>
+          <FILE id="T5aKgF" name="pybind11Config.cmake.in" compile="0" resource="1"
+                file="Source/pybind11/tools/pybind11Config.cmake.in"/>
+          <FILE id="RZp079" name="pybind11NewTools.cmake" compile="0" resource="1"
+                file="Source/pybind11/tools/pybind11NewTools.cmake"/>
+          <FILE id="JvHY2q" name="pybind11Tools.cmake" compile="0" resource="1"
+                file="Source/pybind11/tools/pybind11Tools.cmake"/>
+          <FILE id="NA7peh" name="pyproject.toml" compile="0" resource="1" file="Source/pybind11/tools/pyproject.toml"/>
+          <FILE id="MaCubW" name="setup_global.py.in" compile="0" resource="1"
+                file="Source/pybind11/tools/setup_global.py.in"/>
+          <FILE id="dHhYrq" name="setup_main.py.in" compile="0" resource="1"
+                file="Source/pybind11/tools/setup_main.py.in"/>
+        </GROUP>
+        <FILE id="FicM9j" name="CMakeLists.txt" compile="0" resource="1" file="Source/pybind11/CMakeLists.txt"/>
+        <FILE id="CoPeFg" name="LICENSE" compile="0" resource="1" file="Source/pybind11/LICENSE"/>
+        <FILE id="yV1Qkf" name="MANIFEST.in" compile="0" resource="1" file="Source/pybind11/MANIFEST.in"/>
+        <FILE id="Qu2Wm6" name="pyproject.toml" compile="0" resource="1" file="Source/pybind11/pyproject.toml"/>
+        <FILE id="DGeDP2" name="README.rst" compile="0" resource="1" file="Source/pybind11/README.rst"/>
+        <FILE id="KCoTSr" name="setup.cfg" compile="0" resource="1" file="Source/pybind11/setup.cfg"/>
+        <FILE id="FibWUx" name="setup.py" compile="0" resource="1" file="Source/pybind11/setup.py"/>
       </GROUP>
     </GROUP>
     <FILE id="K3pYzA" name="README.md" compile="0" resource="1" file="README.md"/>

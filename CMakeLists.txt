@@ -92,7 +92,9 @@ target_compile_definitions(PROMISE
 # Conversion to binary-data will happen when your target is built.
 
  juce_add_binary_data(GuiAppData SOURCES
-         Source/GUI/Assets/maximize.svg)
+         Source/GUI/Assets/maximize.svg
+         Source/GUI/Assets/add.svg
+         Source/GUI/Assets/close.svg)
 
 # `target_link_libraries` links libraries and JUCE modules to other libraries or executables. Here,
 # we're linking our executable target to the `juce::juce_gui_extra` module. Inter-module

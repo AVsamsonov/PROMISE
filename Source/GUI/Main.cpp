@@ -30,7 +30,8 @@ public:
         juce::PropertiesFile::Options options;
         options.applicationName     = getApplicationName();
         options.filenameSuffix      = "settings";
-        options.osxLibrarySubFolder = "Preferences";
+        options.osxLibrarySubFolder = "Application Support";
+        options.folderName          = getApplicationName();
         appProperties.setStorageParameters(options);
 
         mainWindow.reset (new MainWindow (getApplicationName()));
@@ -75,7 +76,8 @@ public:
                               DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            setContentOwned (new MainComponent(), true);
+            auto* mainComponent = new MainComponent();
+            setContentOwned (mainComponent, true);
 
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);
@@ -86,6 +88,7 @@ public:
 
             setVisible (true);
             setFullScreen(true);
+            mainComponent->setCurrentDesktop("Default");
         }
 
         void closeButtonPressed() override
@@ -114,6 +117,7 @@ private:
 //==============================================================================
 static PROMISEApplication& getApp() { return *dynamic_cast<PROMISEApplication*>(juce::JUCEApplication::getInstance()); }
 juce::ApplicationProperties& getAppProperties() { return getApp().appProperties; }
+const juce::String getAppName() { return getApp().getApplicationName(); }
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.

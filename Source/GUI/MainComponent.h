@@ -4,6 +4,7 @@
 #include "SplittablePanel.h"
 
 //==============================================================================
+const juce::String getAppName();
 juce::ApplicationProperties& getAppProperties();
 
 //==============================================================================
@@ -21,13 +22,21 @@ public:
     juce::StringArray getMenuBarNames() override;
     juce::PopupMenu getMenuForIndex(int topLevelMenuIndex, const String &menuName) override;
     void menuItemSelected(int menuItemID, int topLevelMenuIndex) override;
+    void setCurrentDesktop(const juce::String& desktopName);
 
 private:
     //==============================================================================
     juce::AudioDeviceManager audioDeviceManager;
-    std::unique_ptr<SplittablePanel> centralPanel;
+    juce::TextButton desktopSelector;
+    juce::String currentDesktopName;
+    SplittablePanel centralPanel;
 
     void showPreferencesDialog();
+    juce::StringArray getDesktopNamesList() const;
+    static juce::String getDesktopsDir();
+
+    void onDesktopSelectorClicked();
+    void onSaveDesktopMenuItemClicked();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

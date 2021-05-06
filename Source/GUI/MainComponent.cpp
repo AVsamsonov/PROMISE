@@ -7,8 +7,12 @@ MainComponent::MainComponent()
     std::unique_ptr<juce::XmlElement> savedAudioState (getAppProperties().getUserSettings()->getXmlValue ("audioDeviceState"));
     audioDeviceManager.initialise(256, 256, savedAudioState.get(), true);
 
-    centralPanel.reset(new SplittablePanel);
-    addAndMakeVisible(centralPanel.get());
+    desktopSelector.onClick = [&] {
+        onDesktopSelectorClicked();
+    };
+    addAndMakeVisible(desktopSelector);
+
+    addAndMakeVisible(centralPanel);
 
     #if JUCE_MAC
     juce::PopupMenu extraMenu;
@@ -31,7 +35,9 @@ MainComponent::~MainComponent()
 //==============================================================================
 void MainComponent::resized()
 {
-    centralPanel->setBounds(getLocalBounds().reduced(2));
+    auto b = getLocalBounds();
+    desktopSelector.setBounds(b.getRight()-102, 2, 100, 24);
+    centralPanel.setBounds(b.withTrimmedTop(25).reduced(2));
 }
 
 //==============================================================================
@@ -70,4 +76,68 @@ void MainComponent::showPreferencesDialog()
         getAppProperties().getUserSettings()->setValue ("audioDeviceState", audioState.get());
         getAppProperties().getUserSettings()->saveIfNeeded();
     }), true);
+}
+
+void MainComponent::onDesktopSelectorClicked()
+{
+    juce::PopupMenu menu;
+
+    // Add desktop items
+    for (const juce::String& desktopName : getDesktopNamesList())
+    {
+        menu.addItem(desktopName, true, desktopName == currentDesktopName, [&] {
+            setCurrentDesktop(currentDesktopName);
+        });
+    }
+
+    menu.addSeparator();
+
+    // Add desktop commands
+    menu.addItem("New Desktop", nullptr);
+    menu.addItem("Save Current Desktop", [&] {
+        onSaveDesktopMenuItemClicked();
+    });
+    menu.addItem("Save Current Desktop As...", nullptr);
+
+    // Show menu
+    menu.showMenuAsync(juce::PopupMenu::Options{});
+}
+
+juce::StringArray MainComponent::getDesktopNamesList() const
+{
+    return juce::StringArray({ "Default" });
+}
+
+juce::String MainComponent::getDesktopsDir()
+{
+    return juce::File::getSpecialLocation(juce::File::SpecialLocationType::userApplicationDataDirectory).getFullPathName() +
+           juce::File::getSeparatorChar() + "Application Support" +
+           juce::File::getSeparatorChar() + getAppName() +
+           juce::File::getSeparatorChar() + "Desktops";
+}
+
+void MainComponent::setCurrentDesktop(const juce::String& desktopName)
+{
+    if (desktopName == currentDesktopName) return;
+
+    // Read the desktop file
+    auto desktopsDirPath = getDesktopsDir();
+    auto desktopFileName = desktopsDirPath + juce::File::getSeparatorChar() + desktopName + ".desktop";
+    auto desktopFile = juce::File(desktopFileName);
+    if (desktopFile.existsAsFile()) {
+        auto xml = juce::parseXML(desktopFile);
+        centralPanel.initializeFromXml(*xml);
+    }
+    currentDesktopName = desktopName;
+    desktopSelector.setButtonText(desktopName);
+}
+
+void MainComponent::onSaveDesktopMenuItemClicked()
+{
+    auto desktopsDirPath = getDesktopsDir();
+    juce::File(desktopsDirPath).createDirectory();
+
+    auto desktopFileName = desktopsDirPath + juce::File::getSeparatorChar() + currentDesktopName + ".desktop";
+    auto xml = centralPanel.createXml();
+    juce::File(desktopFileName).replaceWithText(xml->toString());
 }
