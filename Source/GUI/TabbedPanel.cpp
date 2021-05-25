@@ -28,7 +28,7 @@ TabbedPanel::TabbedPanel()
     : juce::TabbedComponent(juce::TabbedButtonBar::TabsAtTop), BasePanel()
 {
     // Add top right menu button
-    juce::TabbedComponent::addAndMakeVisible(topRightMenuButton);
+    addAndMakeVisible(topRightMenuButton);
 
     topRightMenuButton.onClick = [&] {
         onTopRightMenuButtonClicked();
@@ -39,7 +39,7 @@ TabbedPanel::TabbedPanel()
     maximizeButtonIcon->replaceColour(juce::Colours::black, juce::Colours::white);
     maximizeButton.setImages(maximizeButtonIcon.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
     maximizeButton.setClickingTogglesState(true);
-    juce::TabbedComponent::addAndMakeVisible(maximizeButton);
+    addAndMakeVisible(maximizeButton);
 
     maximizeButton.onStateChange = [&] {
         onMaximizeButtonStageChanged();
@@ -49,7 +49,7 @@ TabbedPanel::TabbedPanel()
     addTabButtonIcon = juce::Drawable::createFromImageData(BinaryData::add_svg, BinaryData::add_svgSize);
     addTabButtonIcon->replaceColour(juce::Colours::black, juce::Colours::white);
     addTabButton.setImages(addTabButtonIcon.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
-    juce::TabbedComponent::addAndMakeVisible(addTabButton);
+    addAndMakeVisible(addTabButton);
 
     addTabButton.onClick = [&] {
         onAddTabButtonClicked();
@@ -65,7 +65,7 @@ void TabbedPanel::resized()
 {
     juce::TabbedComponent::resized();
 
-    auto b = juce::TabbedComponent::getLocalBounds();
+    auto b = getLocalBounds();
     if (!b.isEmpty()) {
         topRightMenuButton.setBounds(b.getRight()-14, 8, 12, 12);
         maximizeButton.setBounds(b.getRight()-34, 8, 12, 12);
@@ -92,7 +92,7 @@ std::unique_ptr<juce::XmlElement> TabbedPanel::createXml() const
         auto* tabElement = new juce::XmlElement("Tab");
         tabElement->setAttribute("name", tabButton->getButtonText());
         xml->addChildElement(tabElement);
-    };
+    }
     return xml;
 }
 
@@ -150,7 +150,7 @@ void TabbedPanel::onMaximizeButtonStageChanged()
 void TabbedPanel::onAddTabButtonClicked()
 {
     juce::PopupMenu menu;
-    for (juce::String tabPanelName : getTabPanelNames())
+    for (const juce::String& tabPanelName : getTabPanelNames())
     {
         menu.addItem(tabPanelName, true, false, [&, tabPanelName] () {
             addPanelTab(tabPanelName);
@@ -161,7 +161,7 @@ void TabbedPanel::onAddTabButtonClicked()
 
 void TabbedPanel::addPanelTab(const juce::String& tabName)
 {
-    auto colour = juce::TabbedComponent::findColour (juce::ResizableWindow::backgroundColourId);
+    auto colour = findColour (juce::ResizableWindow::backgroundColourId);
     addTab(tabName, colour, ComponentFactory::makeComponent(tabName), true);
     // add close tab button to the just created tab
     auto& tabbedButtonBar = getTabbedButtonBar();
