@@ -95,9 +95,21 @@ void MainComponent::onDesktopSelectorClicked()
     // Add desktop commands
     menu.addItem("New Desktop", nullptr);
     menu.addItem("Save Current Desktop", [&] {
-        onSaveDesktopMenuItemClicked();
+        saveCurrentDesktop(currentDesktopName);
     });
-    menu.addItem("Save Current Desktop As...", nullptr);
+    menu.addItem("Save Current Desktop As...", [&] {
+        juce::AlertWindow w ("Save Current Desktop As...",
+                       "",
+                       AlertWindow::QuestionIcon);
+        w.addTextEditor ("desktopName", "Desktop", "Desktop Name:");
+        w.addButton ("OK",     1, juce::KeyPress (juce::KeyPress::returnKey, 0, 0));
+        w.addButton ("Cancel", 0, juce::KeyPress (juce::KeyPress::escapeKey, 0, 0));
+        if (w.runModalLoop() != 0)
+        {
+            auto desktopName = w.getTextEditorContents("desktopName");
+            saveCurrentDesktop(desktopName);
+        }
+    });
 
     // Show menu
     menu.showMenuAsync(juce::PopupMenu::Options{});
@@ -135,12 +147,12 @@ void MainComponent::setCurrentDesktop(const juce::String& desktopName)
     desktopSelector.setButtonText(desktopName);
 }
 
-void MainComponent::onSaveDesktopMenuItemClicked()
+void MainComponent::saveCurrentDesktop(const juce::String& desktopName)
 {
     auto desktopsDirPath = getDesktopsDir();
     juce::File(desktopsDirPath).createDirectory();
 
-    auto desktopFileName = desktopsDirPath + juce::File::getSeparatorChar() + currentDesktopName + ".desktop";
+    auto desktopFileName = desktopsDirPath + juce::File::getSeparatorChar() + desktopName + ".desktop";
     auto xml = centralPanel.createXml();
     juce::File(desktopFileName).replaceWithText(xml->toString());
 }

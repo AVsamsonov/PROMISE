@@ -36,7 +36,7 @@ private:
     static juce::String getDesktopsDir();
 
     void onDesktopSelectorClicked();
-    void onSaveDesktopMenuItemClicked();
+    void saveCurrentDesktop(const juce::String& desktopName);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
