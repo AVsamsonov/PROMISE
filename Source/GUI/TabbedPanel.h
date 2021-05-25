@@ -5,9 +5,10 @@
 #pragma once
 
 #include "JuceHeader.h"
+#include "BasePanel.h"
 
 
-class TabbedPanel : public juce::TabbedComponent {
+class TabbedPanel : public juce::TabbedComponent, public BasePanel {
 public:
     //==============================================================================
     TabbedPanel();
@@ -17,12 +18,8 @@ public:
     void resized() override;
 
     //==============================================================================
-    std::unique_ptr<juce::XmlElement> createXml() const;
-    void initializeFromXml(const juce::XmlElement &xml);
-
-    std::function<void(bool splitVertically)> onSplitMenuItemClicked;
-    std::function<void(const TabbedPanel &panel)> onCloseMenuItemClicked;
-    std::function<void(bool maximizedState)> onMaximizedStateChanged;
+    std::unique_ptr<juce::XmlElement> createXml() const override;
+    void initializeFromXml(const juce::XmlElement &xml) override;
 
 private:
     //==============================================================================

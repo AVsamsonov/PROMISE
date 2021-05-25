@@ -32,7 +32,7 @@ private:
     SplittablePanel centralPanel;
 
     void showPreferencesDialog();
-    juce::StringArray getDesktopNamesList() const;
+    static juce::StringArray getDesktopNamesList() ;
     static juce::String getDesktopsDir();
 
     void onDesktopSelectorClicked();

@@ -5,43 +5,42 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "BasePanel.h"
 #include "TabbedPanel.h"
 
-
-class SplittablePanel : public juce::Component {
+class SplittablePanel : public juce::Component, public BasePanel {
 public:
     //==============================================================================
     SplittablePanel();
-    ~SplittablePanel() override;
-    explicit SplittablePanel(TabbedPanel *srcTabbedPanel);
+    ~SplittablePanel() override = default;
 
     //==============================================================================
     void resized() override;
 
     //==============================================================================
-    std::unique_ptr<juce::XmlElement> createXml() const;
-    void initializeFromXml(const juce::XmlElement &xml);
+    std::unique_ptr<juce::XmlElement> createXml() const override;
+    void initializeFromXml(const juce::XmlElement &xml) override;
+    void initialize();
 
-    std::function<void(const SplittablePanel &panel, bool maximizedState)> onMaximizedStateChanged;
 private:
     //==============================================================================
+    friend class TabbedPanel;
+
+    OwnedArray<BasePanel> children;
+
     bool verticalSplit = false;
-    std::unique_ptr<juce::Component> panelA;
-    std::unique_ptr<juce::Component> panelB;
     std::unique_ptr<juce::StretchableLayoutResizerBar> resizer;
     juce::StretchableLayoutManager layout;
 
-    juce::Component* getPanelA() const { return panelA.get(); }
-    juce::Component* getPanelB() const { return panelB.get(); }
-    void split(bool vertically=false);
-    bool isSplit() const { return panelB and resizer; }
-    void onTabbedPanelSplitMenuItemClicked(bool splitVertically);
-    void onTabbedPanelCloseMenuItemClicked(const TabbedPanel &panel);
-    void onTabbedPanelMaximizedStateChanged(bool state) const;
-    void onSplittablePanelMaximizedStateChanged(const SplittablePanel &panel, bool state);
+    bool maximized = false;
 
-    void setupNestedPanel(std::unique_ptr<juce::Component> &panel, bool movePanelA = false);
-    void setupTabbedPanel();
+    void addChild(BasePanel *panel, int index=-1);
+    int removeChild(BasePanel *panel, bool deletePanel=true);
+
+    void splitChild(BasePanel *panel, bool vertically=false);
+    void closeChild(BasePanel *panel);
+    void moveChildFrom(SplittablePanel *other);
+    void setChildMaximized(BasePanel *panel, bool maximized);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SplittablePanel)
 };

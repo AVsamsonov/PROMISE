@@ -3,38 +3,23 @@
 //
 
 #include "SplittablePanel.h"
+#include "TabbedPanel.h"
 
 //==============================================================================
 SplittablePanel::SplittablePanel()
-    : SplittablePanel(new TabbedPanel())
+    : BasePanel()
 {
-}
-
-SplittablePanel::SplittablePanel(TabbedPanel *srcTabbedPanel)
-{
-    panelA.reset(srcTabbedPanel);
-    addAndMakeVisible(panelA.get());
-
-    setupTabbedPanel();
-
-    layout.setItemLayout(0, -1, -1, -1);
-}
-
-SplittablePanel::~SplittablePanel()
-{
-    panelA = nullptr;
-    panelB = nullptr;
-    resizer = nullptr;
 }
 
 //==============================================================================
-void SplittablePanel::resized() {
-    if (panelB && resizer) {
-        Component* comps[] = {panelA.get(), resizer.get(), panelB.get() };
+void SplittablePanel::resized()
+{
+    if (children.size() > 1) {
+        Component* comps[] = { dynamic_cast<Component*>(children[0]), resizer.get(), dynamic_cast<Component*>(children[1]) };
         layout.layOutComponents(comps, 3, 0, 0, getWidth(), getHeight(), verticalSplit, true);
     }
     else {
-        Component* comps[] = {panelA.get() };
+        Component* comps[] = { dynamic_cast<Component*>(children[0]) };
         layout.layOutComponents(comps, 1, 0, 0, getWidth(), getHeight(), verticalSplit, true);
     }
 }
@@ -42,156 +27,153 @@ void SplittablePanel::resized() {
 //==============================================================================
 std::unique_ptr<juce::XmlElement> SplittablePanel::createXml() const
 {
-    if (isSplit()) {
-        std::unique_ptr<juce::XmlElement> xml{ new juce::XmlElement("SplittablePanel") };
+    std::unique_ptr<juce::XmlElement> xml{ new juce::XmlElement("SplittablePanel") };
+    for (auto* child : children) {
+        xml->addChildElement(child->createXml().release());
+    }
+    if (children.size() > 1) {
         xml->setAttribute("verticalSplit", verticalSplit);
         xml->setAttribute("resizerPosition", layout.getItemCurrentPosition(1));
-        xml->addChildElement(dynamic_cast<SplittablePanel*>(getPanelA())->createXml().release());
-        xml->addChildElement(dynamic_cast<SplittablePanel*>(getPanelB())->createXml().release());
-        return xml;
     }
-    else {
-        return dynamic_cast<TabbedPanel*>(getPanelA())->createXml();
-    }
+    return xml;
+}
+
+void SplittablePanel::initialize()
+{
+    auto* newTabbedPanel = new TabbedPanel();
+    addChild(newTabbedPanel);
 }
 
 void SplittablePanel::initializeFromXml(const juce::XmlElement &xml)
 {
     if (xml.hasTagName("SplittablePanel")) {
-        bool vertically = xml.getStringAttribute("verticalSplit").getIntValue();
-        split(vertically);
+        if (xml.hasAttribute("verticalSplit")) {
+            verticalSplit = xml.getBoolAttribute("verticalSplit");
+        }
 
-        auto* panelAXml = xml.getChildElement(0);
-        dynamic_cast<SplittablePanel*>(panelA.get())->initializeFromXml(*panelAXml);
+        for (auto* child : xml.getChildIterator()) {
+            if (child->hasTagName("SplittablePanel")) {
+                auto* childSplittablePanel = new SplittablePanel();
+                addChild(childSplittablePanel);
+                resized();
+                childSplittablePanel->initializeFromXml(*child);
+            }
+            else if (child->hasTagName("TabbedPanel")) {
+                auto* childTabbedPanel = new TabbedPanel();
+                addChild(childTabbedPanel);
+                resized();
+                childTabbedPanel->initializeFromXml(*child);
+            }
+        }
 
-        auto* panelBXml = xml.getChildElement(1);
-        dynamic_cast<SplittablePanel*>(panelB.get())->initializeFromXml(*panelBXml);
-
-        int resizerPosition = xml.getStringAttribute("resizerPosition").getIntValue();
-        layout.setItemPosition(1, resizerPosition);
-    }
-    else if (xml.hasTagName("TabbedPanel")) {
-        auto* tabbedPanelA = dynamic_cast<TabbedPanel*>(panelA.get());
-        tabbedPanelA->initializeFromXml(xml);
+        if (xml.hasAttribute("resizerPosition")) {
+            int resizerPosition = xml.getIntAttribute("resizerPosition");
+            layout.setItemPosition(1, resizerPosition);
+        }
     }
     resized();
-}
-
-void SplittablePanel::setupTabbedPanel() {
-    auto* tabbedPanel = dynamic_cast<TabbedPanel*>(panelA.get());
-    tabbedPanel->onSplitMenuItemClicked = [&] (bool splitVertically) {
-        onTabbedPanelSplitMenuItemClicked(splitVertically);
-    };
-    tabbedPanel->onMaximizedStateChanged = [&] (bool state) {
-        onTabbedPanelMaximizedStateChanged(state);
-    };
 }
 
 //==============================================================================
-void SplittablePanel::split(bool vertically) {
-    verticalSplit = vertically;
-
-    // set the first panel to be a nested SplittablePanel
-    setupNestedPanel(panelA, true);
-
-    // add the resizer bar
-    resizer.reset(new juce::StretchableLayoutResizerBar(std::addressof(layout), 1, !verticalSplit));
-    addAndMakeVisible(resizer.get());
-
-    // add the second nested SplittablePanel
-    setupNestedPanel(panelB);
-
-    // set layout
-    layout.setItemLayout(0, -0.2, -1, -1);
-    layout.setItemLayout(1, 4, 4, 4);
-    layout.setItemLayout(2, -0.2, -1, -1);
-
-    resized();
-}
-
-void SplittablePanel::setupNestedPanel(std::unique_ptr<juce::Component> &nestedPanel, bool movePanelA)
+void SplittablePanel::addChild(BasePanel *panel, int index)
 {
-    if (movePanelA) {
-        auto* srcPanelA = dynamic_cast<TabbedPanel*>(nestedPanel.release());
-        nestedPanel.reset(new SplittablePanel(srcPanelA));
+    if (index == -1) {
+        children.add(panel);
     }
     else {
-        nestedPanel.reset(new SplittablePanel());
+        children.insert(index, panel);
     }
+    panel->setParent(this);
+    auto* component = dynamic_cast<juce::Component*>(panel);
+    addAndMakeVisible(component);
 
-    auto* newPanelA = dynamic_cast<SplittablePanel*>(nestedPanel.get());
-    auto* tabbedPanelA = dynamic_cast<TabbedPanel*>(newPanelA->getPanelA());
-    tabbedPanelA->onCloseMenuItemClicked = [&] (const TabbedPanel &panel) {
-        onTabbedPanelCloseMenuItemClicked(panel);
-    };
-    newPanelA->onMaximizedStateChanged = [&] (const SplittablePanel &panel, bool state) {
-        onSplittablePanelMaximizedStateChanged(panel, state);
-    };
-    addAndMakeVisible(nestedPanel.get());
+    if (children.size() > 1) {
+        auto* newResizer = new juce::StretchableLayoutResizerBar(std::addressof(layout), 1, !verticalSplit);
+        resizer.reset(newResizer);
+        addAndMakeVisible(newResizer);
+        layout.setItemLayout(0, -0.2, -1, -1);
+        layout.setItemLayout(1, 4, 4, 4);
+        layout.setItemLayout(2, -0.2, -1, -1);
+    }
+    else {
+        layout.setItemLayout(0, -1, -1, -1);
+    }
 }
 
-//==============================================================================
-void SplittablePanel::onTabbedPanelSplitMenuItemClicked(bool splitVertically)
+int SplittablePanel::removeChild(BasePanel *panel, bool deletePanel)
 {
-    split(splitVertically);
-}
-
-void SplittablePanel::onTabbedPanelCloseMenuItemClicked(const TabbedPanel &panel) {
-    if (isSplit()) {
-        if (std::addressof(panel) == dynamic_cast<SplittablePanel *>(panelA.get())->getPanelA()) {
-            panelA = std::move(panelB);
-        }
-        panelB.reset(nullptr);
+    auto* component = dynamic_cast<juce::Component*>(panel);
+    removeChildComponent(component);
+    panel->setParent(nullptr);
+    int index = children.indexOf(panel);
+    children.removeObject(panel, deletePanel);
+    if (children.size() < 2) {
+        removeChildComponent(resizer.get());
         resizer.reset(nullptr);
         layout.setItemLayout(0, -1, -1, -1);
+    }
+    return index;
+}
 
+void SplittablePanel::splitChild(BasePanel *panel, bool vertically)
+{
+    int resizerPos = resizer ? layout.getItemCurrentPosition(1) : -1;
+    int index = removeChild(panel, false);
+    auto* newSplittablePanel = new SplittablePanel();
+    newSplittablePanel->verticalSplit = vertically;
+    addChild(newSplittablePanel, index);
+    newSplittablePanel->addChild(panel);
+    newSplittablePanel->addChild(new TabbedPanel());
+    if (resizerPos != -1)
+        layout.setItemPosition(1, resizerPos);
+    resized();
+}
+
+void SplittablePanel::closeChild(BasePanel* panel)
+{
+    auto* parent = getParent();
+    if (parent) {
+        removeChild(panel);
+        auto* parentSplittablePanel = dynamic_cast<SplittablePanel*>(parent);
+        parentSplittablePanel->moveChildFrom(this);
+    }
+}
+
+void SplittablePanel::moveChildFrom(SplittablePanel *other)
+{
+    auto* otherFirstChild = other->children[0];
+    other->children.removeObject(otherFirstChild, false);
+    int index = removeChild(other);
+    addChild(otherFirstChild, index);
+    resized();
+}
+
+void SplittablePanel::setChildMaximized(BasePanel *panel, bool m)
+{
+    maximized = m;
+    if (children.size() > 1) {
+        int panelIndex = children.indexOf(panel);
+        int otherPanelIndex = 1 - panelIndex;
+        auto* otherPanel = children[otherPanelIndex];
+        auto* otherPanelComponent = dynamic_cast<Component*>(otherPanel);
+        otherPanelComponent->setVisible(!maximized);
+        resizer->setVisible(!maximized);
+
+        if (maximized) {
+            layout.setItemLayout(panelIndex, -1, -1, -1);
+            layout.setItemLayout(1, 0, 0, 0);
+            layout.setItemLayout(otherPanelIndex, 0, 0, 0);
+        }
+        else {
+            layout.setItemLayout(0, -0.2, -1, -1);
+            layout.setItemLayout(1, 4, 4, 4);
+            layout.setItemLayout(2, -0.2, -1, -1);
+        }
         resized();
     }
-    else {
-        std::cout << dynamic_cast<SplittablePanel*>(panelA.get()) << std::endl;
+    auto* parent = getParent();
+    if (parent) {
+        auto* parentSplittablePanel = dynamic_cast<SplittablePanel*>(parent);
+        parentSplittablePanel->setChildMaximized(this, maximized);
     }
-}
-
-void  SplittablePanel::onTabbedPanelMaximizedStateChanged(bool maximizedState) const
-{
-    if (onMaximizedStateChanged) onMaximizedStateChanged(*this, maximizedState);
-}
-
-void SplittablePanel::onSplittablePanelMaximizedStateChanged(const SplittablePanel &panel, bool maximizedState)
-{
-    if (isSplit()) {
-        if (std::addressof(panel) == panelA.get()) {
-            if (maximizedState) {
-                panelB->setVisible(false);
-                resizer->setVisible(false);
-                layout.setItemLayout(0, -1, -1, -1);
-                layout.setItemLayout(1, 0, 0, 0);
-                layout.setItemLayout(2, 0, 0, 0);
-            }
-            else {
-                panelB->setVisible(true);
-                resizer->setVisible(true);
-                layout.setItemLayout(0, -0.2, -1, -1);
-                layout.setItemLayout(1, 4, 4, 4);
-                layout.setItemLayout(2, -0.2, -1, -1);
-            }
-        } else {
-            if (maximizedState) {
-                panelA->setVisible(false);
-                resizer->setVisible(false);
-                layout.setItemLayout(0, 0, 0, 0);
-                layout.setItemLayout(1, 0, 0, 0);
-                layout.setItemLayout(2, -1, -1, -1);
-            }
-            else {
-                panelA->setVisible(true);
-                resizer->setVisible(true);
-                layout.setItemLayout(0, -0.2, -1, -1);
-                layout.setItemLayout(1, 4, 4, 4);
-                layout.setItemLayout(2, -0.2, -1, -1);
-            }
-        }
-    }
-    resized();
-    if (onMaximizedStateChanged) onMaximizedStateChanged(*this, maximizedState);
 }

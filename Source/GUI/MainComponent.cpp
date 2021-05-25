@@ -103,7 +103,7 @@ void MainComponent::onDesktopSelectorClicked()
     menu.showMenuAsync(juce::PopupMenu::Options{});
 }
 
-juce::StringArray MainComponent::getDesktopNamesList() const
+juce::StringArray MainComponent::getDesktopNamesList()
 {
     return juce::StringArray({ "Default" });
 }
@@ -127,6 +127,9 @@ void MainComponent::setCurrentDesktop(const juce::String& desktopName)
     if (desktopFile.existsAsFile()) {
         auto xml = juce::parseXML(desktopFile);
         centralPanel.initializeFromXml(*xml);
+    }
+    else {
+        centralPanel.initialize();
     }
     currentDesktopName = desktopName;
     desktopSelector.setButtonText(desktopName);

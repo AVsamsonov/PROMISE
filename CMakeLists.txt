@@ -64,6 +64,7 @@ target_sources(PROMISE
     PRIVATE
         Source/GUI/Main.cpp
         Source/GUI/MainComponent.cpp
+        Source/GUI/BasePanel.cpp
         Source/GUI/SplittablePanel.cpp
         Source/GUI/TabbedPanel.cpp
         Source/GUI/PythonShell.cpp

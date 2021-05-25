@@ -3,6 +3,7 @@
 //
 
 #include "TabbedPanel.h"
+#include "SplittablePanel.h"
 #include "PythonShell.h"
 
 struct ComponentFactory
@@ -24,10 +25,10 @@ static juce::StringArray getTabPanelNames()
 
 //==============================================================================
 TabbedPanel::TabbedPanel()
-    : juce::TabbedComponent(juce::TabbedButtonBar::TabsAtTop)
+    : juce::TabbedComponent(juce::TabbedButtonBar::TabsAtTop), BasePanel()
 {
     // Add top right menu button
-    addAndMakeVisible(topRightMenuButton);
+    juce::TabbedComponent::addAndMakeVisible(topRightMenuButton);
 
     topRightMenuButton.onClick = [&] {
         onTopRightMenuButtonClicked();
@@ -38,7 +39,7 @@ TabbedPanel::TabbedPanel()
     maximizeButtonIcon->replaceColour(juce::Colours::black, juce::Colours::white);
     maximizeButton.setImages(maximizeButtonIcon.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
     maximizeButton.setClickingTogglesState(true);
-    addAndMakeVisible(maximizeButton);
+    juce::TabbedComponent::addAndMakeVisible(maximizeButton);
 
     maximizeButton.onStateChange = [&] {
         onMaximizeButtonStageChanged();
@@ -48,7 +49,7 @@ TabbedPanel::TabbedPanel()
     addTabButtonIcon = juce::Drawable::createFromImageData(BinaryData::add_svg, BinaryData::add_svgSize);
     addTabButtonIcon->replaceColour(juce::Colours::black, juce::Colours::white);
     addTabButton.setImages(addTabButtonIcon.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
-    addAndMakeVisible(addTabButton);
+    juce::TabbedComponent::addAndMakeVisible(addTabButton);
 
     addTabButton.onClick = [&] {
         onAddTabButtonClicked();
@@ -64,7 +65,7 @@ void TabbedPanel::resized()
 {
     juce::TabbedComponent::resized();
 
-    auto b = getLocalBounds();
+    auto b = juce::TabbedComponent::getLocalBounds();
     if (!b.isEmpty()) {
         topRightMenuButton.setBounds(b.getRight()-14, 8, 12, 12);
         maximizeButton.setBounds(b.getRight()-34, 8, 12, 12);
@@ -111,13 +112,25 @@ void TabbedPanel::onTopRightMenuButtonClicked()
 {
     juce::PopupMenu menu;
     menu.addItem("Split Panel Horizontally", !maximizedState, false, [&] () {
-        if (onSplitMenuItemClicked) onSplitMenuItemClicked(false);
+        auto* parent = getParent();
+        if (parent) {
+            auto* splittablePanel = dynamic_cast<SplittablePanel*>(parent);
+            splittablePanel->splitChild(this, false);
+        }
     });
     menu.addItem("Split Panel Vertically", !maximizedState, false, [&] () {
-        if (onSplitMenuItemClicked) onSplitMenuItemClicked(true);
+        auto* parent = getParent();
+        if (parent) {
+            auto* splittablePanel = dynamic_cast<SplittablePanel*>(parent);
+            splittablePanel->splitChild(this, true);
+        }
     });
     menu.addItem("Close Panel", !maximizedState, false, [&] () {
-        if (onCloseMenuItemClicked) onCloseMenuItemClicked(*this);
+        auto* parent = getParent();
+        if (parent) {
+            auto* splittablePanel = dynamic_cast<SplittablePanel*>(parent);
+            splittablePanel->closeChild(this);
+        }
     });
     menu.showMenuAsync(juce::PopupMenu::Options{});
 }
@@ -125,8 +138,12 @@ void TabbedPanel::onTopRightMenuButtonClicked()
 void TabbedPanel::onMaximizeButtonStageChanged()
 {
     if (maximizedState != maximizeButton.getToggleState()) {
-        maximizedState = maximizeButton.getToggleState();
-        if (onMaximizedStateChanged) onMaximizedStateChanged(maximizeButton.getToggleState());
+        auto* parent = getParent();
+        if (parent) {
+            maximizedState = maximizeButton.getToggleState();
+            auto* splittablePanel = dynamic_cast<SplittablePanel*>(parent);
+            splittablePanel->setChildMaximized(this, maximizedState);
+        }
     }
 }
 
@@ -144,7 +161,7 @@ void TabbedPanel::onAddTabButtonClicked()
 
 void TabbedPanel::addPanelTab(const juce::String& tabName)
 {
-    auto colour = findColour (juce::ResizableWindow::backgroundColourId);
+    auto colour = juce::TabbedComponent::findColour (juce::ResizableWindow::backgroundColourId);
     addTab(tabName, colour, ComponentFactory::makeComponent(tabName), true);
     // add close tab button to the just created tab
     auto& tabbedButtonBar = getTabbedButtonBar();
