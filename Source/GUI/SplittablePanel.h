@@ -21,6 +21,7 @@ public:
     std::unique_ptr<juce::XmlElement> createXml() const override;
     void initializeFromXml(const juce::XmlElement &xml) override;
     void initialize();
+    void reset();
 
 private:
     //==============================================================================

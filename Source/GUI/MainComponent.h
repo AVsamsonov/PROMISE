@@ -30,13 +30,15 @@ private:
     juce::TextButton desktopSelector;
     juce::String currentDesktopName;
     SplittablePanel centralPanel;
+    juce::StringArray desktopNamesList;
 
     void showPreferencesDialog();
-    static juce::StringArray getDesktopNamesList() ;
+    void initializeDesktopNamesList() ;
     static juce::String getDesktopsDir();
 
     void onDesktopSelectorClicked();
     void saveCurrentDesktop(const juce::String& desktopName);
+    void newDesktop();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

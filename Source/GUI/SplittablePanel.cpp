@@ -40,12 +40,22 @@ std::unique_ptr<juce::XmlElement> SplittablePanel::createXml() const
 
 void SplittablePanel::initialize()
 {
+    reset();
     auto* newTabbedPanel = new TabbedPanel();
     addChild(newTabbedPanel);
+    resized();
+}
+
+void SplittablePanel::reset()
+{
+    children.clear();
+    resizer.reset();
 }
 
 void SplittablePanel::initializeFromXml(const juce::XmlElement &xml)
 {
+    reset();
+
     if (xml.hasTagName("SplittablePanel")) {
         if (xml.hasAttribute("verticalSplit")) {
             verticalSplit = xml.getBoolAttribute("verticalSplit");

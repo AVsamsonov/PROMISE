@@ -7,6 +7,8 @@ MainComponent::MainComponent()
     std::unique_ptr<juce::XmlElement> savedAudioState (getAppProperties().getUserSettings()->getXmlValue ("audioDeviceState"));
     audioDeviceManager.initialise(256, 256, savedAudioState.get(), true);
 
+    initializeDesktopNamesList();
+
     desktopSelector.onClick = [&] {
         onDesktopSelectorClicked();
     };
@@ -83,17 +85,19 @@ void MainComponent::onDesktopSelectorClicked()
     juce::PopupMenu menu;
 
     // Add desktop items
-    for (const juce::String& desktopName : getDesktopNamesList())
+    for (const juce::String& desktopName : desktopNamesList)
     {
-        menu.addItem(desktopName, true, desktopName == currentDesktopName, [&] {
-            setCurrentDesktop(currentDesktopName);
+        menu.addItem(desktopName, true, desktopName == currentDesktopName, [&, desktopName] {
+            setCurrentDesktop(desktopName);
         });
     }
 
     menu.addSeparator();
 
     // Add desktop commands
-    menu.addItem("New Desktop", nullptr);
+    menu.addItem("New Desktop", [&] {
+        newDesktop();
+    });
     menu.addItem("Save Current Desktop", [&] {
         saveCurrentDesktop(currentDesktopName);
     });
@@ -115,9 +119,13 @@ void MainComponent::onDesktopSelectorClicked()
     menu.showMenuAsync(juce::PopupMenu::Options{});
 }
 
-juce::StringArray MainComponent::getDesktopNamesList()
+void MainComponent::initializeDesktopNamesList()
 {
-    return juce::StringArray({ "Default" });
+    desktopNamesList.clear();
+    auto desktopsDirPath = getDesktopsDir();
+    for (const auto& entry : juce::RangedDirectoryIterator(juce::File(desktopsDirPath), false, "*.desktop")) {
+        desktopNamesList.add(entry.getFile().getFileNameWithoutExtension());
+    }
 }
 
 juce::String MainComponent::getDesktopsDir()
@@ -155,4 +163,23 @@ void MainComponent::saveCurrentDesktop(const juce::String& desktopName)
     auto desktopFileName = desktopsDirPath + juce::File::getSeparatorChar() + desktopName + ".desktop";
     auto xml = centralPanel.createXml();
     juce::File(desktopFileName).replaceWithText(xml->toString());
+}
+
+void MainComponent::newDesktop()
+{
+    auto desktopsDir = juce::File(getDesktopsDir());
+    int suffix = 1;
+    bool defaultNewDesktopNameFound = false;
+    juce::String defaultNewDesktopName;
+    while (!defaultNewDesktopNameFound) {
+        defaultNewDesktopName = "Desktop" + juce::String(suffix);
+        auto foundFiles = desktopsDir.findChildFiles(juce::File::TypesOfFileToFind::findFiles, false,
+                                                     defaultNewDesktopName + ".desktop");
+        defaultNewDesktopNameFound = foundFiles.size() == 0;
+        suffix++;
+    }
+    desktopNamesList.add(defaultNewDesktopName);
+    desktopNamesList.sort(true);
+    setCurrentDesktop(defaultNewDesktopName);
+    saveCurrentDesktop(defaultNewDesktopName);
 }
