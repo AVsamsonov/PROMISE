@@ -11,6 +11,8 @@
 
 cmake_minimum_required(VERSION 3.12)
 
+set(CMAKE_CXX_STANDARD 14)
+
 # The top-level CMakeLists.txt file for a project must contain a literal, direct call to the
 # `project()` command. `project()` sets up some helpful variables that describe source/binary
 # directories, and the current project version. This is a standard CMake command.
@@ -28,6 +30,9 @@ add_subdirectory(JUCE)                    # If you've put JUCE in a subdirectory
 
 # Find python package
 add_subdirectory(Source/pybind11)
+
+# Add tests
+add_subdirectory(Source/Google_tests)
 
 # If your app depends the VST2 SDK, perhaps to host VST2 plugins, CMake needs to be told where
 # to find the SDK on your system. This setup should be done before calling `juce_add_gui_app`.
@@ -55,6 +60,35 @@ juce_add_gui_app(PROMISE
 
 juce_generate_juce_header(PROMISE)
 
+add_library(juce_modules STATIC)
+
+target_link_libraries(juce_modules
+        PRIVATE
+        juce::juce_gui_extra
+        juce::juce_audio_devices
+        juce::juce_audio_utils
+        PUBLIC
+        juce::juce_recommended_config_flags
+        juce::juce_recommended_lto_flags
+        juce::juce_recommended_warning_flags)
+
+target_compile_definitions(juce_modules
+        PUBLIC
+        JUCE_WEB_BROWSER=0
+        JUCE_USE_CURL=0
+        INTERFACE
+        $<TARGET_PROPERTY:juce_modules,COMPILE_DEFINITIONS>)
+
+target_include_directories(juce_modules
+        INTERFACE
+        $<TARGET_PROPERTY:juce_modules,INCLUDE_DIRECTORIES>)
+
+set_target_properties(juce_modules PROPERTIES
+        POSITION_INDEPENDENT_CODE TRUE
+        VISIBILITY_INLINES_HIDDEN TRUE
+        C_VISIBILITY_PRESET hidden
+        CXX_VISIBILITY_PRESET hidden)
+
 # `target_sources` adds source files to a target. We pass the target that needs the sources as the
 # first argument, then a visibility parameter for the sources which should normally be PRIVATE.
 # Finally, we supply a list of source files that will be built into the target. This is a standard
@@ -68,7 +102,8 @@ target_sources(PROMISE
         Source/GUI/SplittablePanel.cpp
         Source/GUI/TabbedPanel.cpp
         Source/GUI/PythonShell.cpp
-        Source/GUI/PreferencesDialog.cpp)
+        Source/GUI/PreferencesDialog.cpp
+        Source/Core/Node.cpp)
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
 # project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use
@@ -106,9 +141,7 @@ target_compile_definitions(PROMISE
 target_link_libraries(PROMISE
     PRIVATE
          GuiAppData            # If we'd created a binary data target, we'd link to it here
-        juce::juce_gui_extra
-        juce::juce_audio_devices
-        juce::juce_audio_utils
+        juce_modules
         pybind11::embed
     PUBLIC
         juce::juce_recommended_config_flags
